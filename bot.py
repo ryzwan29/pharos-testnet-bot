@@ -288,7 +288,8 @@ class PharosBot:
         res = self.session.get(url)
         if res.ok:
             data = res.json()
-            self.log(f"Poin: {data.get('user_info', {}).get('TotalPoints', 0)}", "khusus")
+            points = data.get('data', {}).get('user_info', {}).get('TaskPoints', 0)
+            self.log(f"Poin: {points}", "khusus")
         else:
             self.log("Gagal ambil profil", "peringatan")
 
