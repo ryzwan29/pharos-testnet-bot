@@ -1,5 +1,6 @@
 # 🚀 PHAROS-AUTO | Bot Airdrop Testnet by AirDropFamilyIDN
-![image](https://github.com/user-attachments/assets/117fcf71-6f0c-48d9-8a47-e31d0ddcd0d9)
+![image](https://github.com/user-attachments/assets/6e11bb69-7224-4e36-ba2c-9cd347fe3586)
+
 
 
 Bot otomatis untuk menyelesaikan semua task Pharos Testnet — termasuk check-in, faucet, swap token, transfer antar wallet, hingga staking. Semua dilakukan langsung via transaksi di blockchain  TX
