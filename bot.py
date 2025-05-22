@@ -9,6 +9,7 @@ from colorama import init, Fore
 from rich.console import Console
 from rich.panel import Panel
 from config import *
+import datetime
 
 console = Console()
 
@@ -99,22 +100,55 @@ def get_profile_info(address, bearer_token):
         print(f"❌ Gagal ambil profil: {e}")
         return {}
 
+def get_today_index():
+    day_of_week = datetime.datetime.today().weekday()
+    return day_of_week
+
+
+def is_checkin_available(status_str):
+    index = get_today_index()
+    if len(status_str) != 7:
+        return False, "⚠️ Status tidak valid."
+    
+    char_today = status_str[index]
+    if char_today == "2":
+        return True, "🕓 Belum check-in, akan mencoba check-in."
+    elif char_today == "0":
+        return False, "ℹ️ Sudah check-in hari ini."
+    elif char_today == "1":
+        return False, "⏭️ Hari ini dilewati."
+    else:
+        return False, "❌ Status tidak dikenal."
+
 def checkin(address, token):
-    headers = {'Authorization': f'Bearer {token}'}
+    headers = {
+        'Authorization': f'Bearer {token}',
+        'Referer': 'https://testnet.pharosnetwork.xyz/',
+        'Origin': 'https://testnet.pharosnetwork.xyz',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
+        'Accept': 'application/json, text/plain, */*',
+    }
+
     url_status = f"{API_URL}/sign/status?address={address}"
     try:
         res = requests.get(url_status, headers=headers)
-        if res.ok and res.json().get("data", {}).get("status") == "1111222":
-            url = f"{API_URL}/sign/in?address={address}"
-            res_checkin = requests.post(url, headers=headers)
-            if res_checkin.ok:
-                print("✅ Checkin berhasil!")
+        if res.ok:
+            status_str = res.json().get("data", {}).get("status", "2222222")
+            available, info = is_checkin_available(status_str)
+            print(info)
+            if available:
+                url_checkin = f"{API_URL}/sign/in?address={address}"
+                res_checkin = requests.post(url_checkin, headers=headers)
+                if res_checkin.ok:
+                    print("✅ Check-in berhasil!")
+                else:
+                    print(f"❌ Gagal check-in: {res_checkin.text}")
             else:
-                print("❌ Checkin gagal.")
+                print("ℹ️ Tidak melakukan check-in.")
         else:
-            print("ℹ️ Sudah checkin hari ini.")
+            print(f"⚠️ Gagal mendapatkan status check-in: {res.text}")
     except Exception as e:
-        print(f"❌ Gagal checkin: {e}")
+        print(f"❌ Error saat check-in: {e}")
 
 def send_transaction(private_key, to_address, value=0.001):
     account = w3.eth.account.from_key(private_key)
