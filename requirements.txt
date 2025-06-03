@@ -1,5 +1,6 @@
 web3==6.20.1
 eth-account
+eth-utils
 requests
 colorama
 rich
