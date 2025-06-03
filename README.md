@@ -34,28 +34,19 @@ Bot otomatis untuk menyelesaikan semua task Pharos Testnet — termasuk check-in
 
 ---
 
-## 🛠️ PERSIAPAN SEBELUM RUNNING
+## 🛠️ INSTALL DENGAN SCRIPT
+```
+source <(curl -s https://raw.githubusercontent.com/ryzwan29/pharos-testnet-bot/main/quick-installation.sh)
+```
+Ganti `privateKeys.txt` dengan privatekey wallet masing-masing (Support multi wallet)
 
-### 1. Install Python 3.10+
-Download & install dari: [https://www.python.org/downloads/](https://www.python.org/downloads/)
-
-> Jangan lupa centang opsi `Add Python to PATH` saat install!
-
----
-
-### 2. Install Modul Wajib
-
+1. Untuk menjalankan bot TF, Swap, Add LP
 ```
-git clone https://github.com/AirdropFamilyIDN-V2-0/PHAROS-AUTO.git
+python3 bot.py
 ```
+2. Untuk menjalankan bot auto mint NFT
 ```
-cd PHAROS-AUTO
-```
-```
-pip install web3 eth-account requests colorama rich
-```
-```
-python bot.py
+python3 MintNFT.py
 ```
 # 🚀 PHAROS AUTO - Auto Mint NFT (Testnet) via Termux
 
